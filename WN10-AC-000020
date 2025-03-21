@@ -1,0 +1,38 @@
+<#
+.SYNOPSIS
+    This PowerShell script enables users to effectively negate the purpose of mandating periodic password changes. The default value is 24 for Windows domain systems. 
+
+.NOTES
+    Author          : Kim Matthews
+    LinkedIn        : linkedin.com/in/kim-matthews-84bba4b9/
+    GitHub          : github.com/KimMatthews02/KimMatthews02
+    Date Created    : 2025-03-21
+    Last Modified   : 2025-03-21
+    Version         : 1.0
+    CVEs            : N/A
+    Plugin IDs      : N/A
+    STIG-ID         : WN10-AC-000020
+
+.TESTED ON
+    Date(s) Tested  : 
+    Tested By       : 
+    Systems Tested  : 
+    PowerShell Ver. : 
+
+.USAGE
+    Put any usage instructions here.
+    Example syntax:
+    PS C:\> .\STIG_WN10-AC-000020.ps1 
+#>
+
+# # Set the account lockout threshold to 3 invalid login attempts
+net accounts /lockoutthreshold:3
+
+# Set the lockout duration to 15 minutes
+net accounts /lockoutduration:15
+
+# Set the lockout counter reset time to 15 minutes
+net accounts /lockoutwindow:15
+
+# Verify the applied settings
+net accounts
