@@ -1,0 +1,32 @@
+#
+.SYNOPSIS
+    Audit MPSSVC Rule-Level Policy Change determines whether the 
+    operating system generates audit events when changes are made
+    to policy rules for the 
+    Microsoft Protection Service
+
+.NOTES
+    Author          : Kim Matthews
+    LinkedIn        : linkedin.com/in/kim-matthews-84bba4b9
+    GitHub          : github.com/KimMatthews02
+    Date Created    : 2025-03-25
+    Last Modified   : 2025-03-25
+    Version         : 1.0C000500
+
+.TESTED ON
+    Date(s) Tested  : 
+    Tested By       : 
+    Systems Tested  : 
+    PowerShell Ver. : 
+
+.USAGE
+    Put any usage instructions here.
+    Example syntax:#  
+
+PS C:\> .\__STIG-ID-WN10-AU-000580).ps1 
+#>
+# Enable auditing for MPSSVC Rule-Level Policy Change Failures
+auditpol /set /subcategory:"MPSSVC Rule-Level Policy Change" /failure:enable
+
+# Verify the applied setting
+auditpol /get /subcategory:"MPSSVC Rule-Level Policy Change"
