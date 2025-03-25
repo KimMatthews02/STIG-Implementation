@@ -1,0 +1,44 @@
+#
+.SYNOPSIS
+    
+    
+    This PowerShell script prevents download attachments form RSS feeds
+    <#
+
+
+.NOTES
+    Author          : Kim Matthews
+    LinkedIn        : linkedin.com/in/kim-matthews-84bba4b9
+    GitHub          : github.com/KimMatthews02
+    Date Created    : 2025-03-25
+    Last Modified   : 2025-03-25
+    Version         : 1.0
+    CVEs            : N/A
+    Plugin IDs      : N/A
+    STIG-ID         : WN10-CC-000295
+
+.TESTED ON
+    Date(s) Tested  : 
+    Tested By       : 
+    Systems Tested  : 
+    PowerShell Ver. : 
+
+.USAGE
+    Put any usage instructions here.
+    Example syntax:
+    PS C:\> .\__STIG-ID-WN10-CC-000295.ps1 
+#>
+
+# Define the registry path for RSS feed settings
+$regPath = "HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer\Feeds"
+
+# Ensure the registry path exists
+if (-not (Test-Path $regPath)) {
+    New-Item -Path $regPath -Force | Out-Null
+}
+
+# Set the "DisableEnclosureDownload" value to 1 to prevent RSS attachments from downloading
+Set-ItemProperty -Path $regPath -Name "DisableEnclosureDownload" -Value 1 -Type DWord
+
+# Verify the applied setting
+Get-ItemProperty -Path $regPath | Select-Object DisableEnclosureDownload
