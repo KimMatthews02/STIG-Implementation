@@ -10,6 +10,9 @@
     Date Created    : 2025-03-25
     Last Modified   : 2025-03-25
     Version         : 1.0C000500
+    CVEs            : N/A
+    PluginIDs       : N/A
+    STIG-ID         : WN10-SO-000190
 
 .TESTED ON
     Date(s) Tested  : 
@@ -20,7 +23,7 @@
 .USAGE
     Put any usage instructions here.
     Example syntax:
-    PS C:\> .\__STIG-ID-WN10-SO-000190).ps1 
+    PS C:\> .\__STIG-ID-WN10-SO-000190.ps1 
 #>
 # Define the registry path for Kerberos parameters
 $regPath = "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\Kerberos\Parameters"
