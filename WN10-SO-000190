@@ -1,0 +1,40 @@
+<#
+.SYNOPSIS
+    Kerberos encryption types must be configured to prevent the use of DES and RC4 encryption suites
+    
+
+.NOTES
+    Author          : Kim Matthews
+    LinkedIn        : linkedin.com/in/kim-matthews-84bba4b9
+    GitHub          : github.com/KimMatthews02
+    Date Created    : 2025-03-25
+    Last Modified   : 2025-03-25
+    Version         : 1.0C000500
+
+.TESTED ON
+    Date(s) Tested  : 
+    Tested By       : 
+    Systems Tested  : 
+    PowerShell Ver. : 
+
+.USAGE
+    Put any usage instructions here.
+    Example syntax:
+    PS C:\> .\__STIG-ID-WN10-SO-000190).ps1 
+#>
+# Define the registry path for Kerberos parameters
+$regPath = "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\Kerberos\Parameters"
+
+# Create the registry key if it does not exist
+if (-not (Test-Path $regPath)) {
+    New-Item -Path $regPath -Force | Out-Null
+}
+
+# Set SupportedEncryptionTypes to 0x18 (24 in decimal)
+# Explanation:
+#   AES128 = 0x8 and AES256 = 0x10; their sum (0x8 + 0x10) is 0x18.
+# This ensures that only AES encryption is used and disables DES and RC4.
+Set-ItemProperty -Path $regPath -Name "SupportedEncryptionTypes" -Value 0x18 -Type DWord
+
+# Verify the setting
+Get-ItemProperty -Path $regPath | Select-Object SupportedEncryptionTypes
