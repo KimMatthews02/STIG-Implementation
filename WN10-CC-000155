@@ -5,7 +5,6 @@
     This PowerShell script ensures Solicited Remote Assistance must not be allowed.
     <#
 
-
 .NOTES
     Author          : Kim Matthews
     LinkedIn        : linkedin.com/in/kim-matthews-84bba4b9
