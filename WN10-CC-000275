@@ -1,0 +1,36 @@
+#
+.SYNOPSIS
+    This PowerShell script prevents local drives from sharing with
+Remote Desktop hosts
+.NOTES
+    Author          : Kim Matthews
+    LinkedIn        : linkedin.com/in/kim-matthews-84bba4b9
+    GitHub          : github.com/KimMatthews02
+    Date Created    : 2024-04-05
+    Last Modified   : 2025-04-05
+    Version         : 1.0
+    CVEs            : N/A
+    Plugin IDs      : N/A
+    STIG-ID         : WN10-CC-000275
+
+.TESTED ON
+    Date(s) Tested  : 
+    Tested By       : 
+    Systems Tested  : 
+    PowerShell Ver. : 
+
+
+
+# Define registry path
+$regPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Terminal Services"
+
+# Create the path if it doesn't exist
+if (-not (Test-Path $regPath)) {
+    New-Item -Path $regPath -Force | Out-Null
+}
+
+# Set fDisableCdm to 1 to disable drive redirection
+Set-ItemProperty -Path $regPath -Name "fDisableCdm" -Value 1 -Type DWord
+
+# Confirm the setting
+Get-ItemProperty -Path $regPath | Select-Object fDisableCdm
