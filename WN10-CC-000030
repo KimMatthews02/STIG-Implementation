@@ -1,0 +1,36 @@
+<#
+.SYNOPSIS
+    This PowerShell script ensures
+
+.NOTES
+    Author          : Kim Matthews
+    LinkedIn        : linkedin.com/in/kim-matthews-84bba4b9
+    GitHub          : github.com/KimMatthews02
+    Date Created    : 2024-04-04
+    Last Modified   : 2025-04-04
+    Version         : 1.0
+    CVEs            : N/A
+    Plugin IDs      : N/A
+    STIG-ID         : WN10-CC-000030
+
+.TESTED ON
+    Date(s) Tested  : 
+    Tested By       : 
+    Systems Tested  : 
+    PowerShell Ver. : 
+
+.USAGE
+    Put any usage instructions here.
+    Example syntax:
+    PS C:\> .\ WN10-CC-000030.ps1 
+#>
+
+# Define registry path
+$regPath = "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters"
+
+# Set EnableICMPRedirect to 0 (disable ICMP redirects)
+Set-ItemProperty -Path $regPath -Name "EnableICMPRedirect" -Value 0 -Type DWord
+
+# Confirm the value is set
+Get-ItemProperty -Path $regPath | Select-Object EnableICMPRedirect
+
