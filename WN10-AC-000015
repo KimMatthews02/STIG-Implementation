@@ -1,0 +1,54 @@
+.SYNOPSIS
+    This PowerShell script enables account lockout 15 min before reset
+
+.NOTES
+    Author          : Kim Matthews
+    LinkedIn        : linkedin.com/in/kim-matthews-84bba4b9
+    GitHub          : github.com/KimMatthews02
+    Date Created    : 2024-04-04
+    Last Modified   : 2025-04-04
+    Version         : 1.0
+    CVEs            : N/A
+    Plugin IDs      : N/A
+    STIG-ID         : WN10-AC-000015
+
+.TESTED ON
+    Date(s) Tested  : 
+    Tested By       : 
+    Systems Tested  : 
+    PowerShell Ver. : 
+
+.USAGE
+    Put any usage instructions here.
+    Example syntax: 
+    PS C:\> .\WN10-AC-000015.ps1 
+#>
+
+
+
+# Set the idle timeout (in seconds) for all users
+$regPath1 = "HKCU:\Control Panel\Desktop"
+Set-ItemProperty -Path $regPath1 -Name "ScreenSaveTimeOut" -Value "900"
+Set-ItemProperty -Path $regPath1 -Name "ScreenSaverIsSecure" -Value "1"
+
+# Enable the screen saver (necessary for the lock to trigger)
+Set-ItemProperty -Path $regPath1 -Name "ScreenSaveActive" -Value "1"
+
+# Also enforce via local machine policies
+$regPath2 = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Control Panel\Desktop"
+if (-not (Test-Path $regPath2)) {
+    New-Item -Path $regPath2 -Force | Out-Null
+}
+Set-ItemProperty -Path $regPath2 -Name "ScreenSaveTimeOut" -Value "900" -Type String
+Set-ItemProperty -Path $regPath2 -Name "ScreenSaverIsSecure" -Value "1" -Type String
+Set-ItemProperty -Path $regPath2 -Name "ScreenSaveActive" -Value "1" -Type String
+
+# Optional: Set a screensaver (can be any valid .scr file)
+Set-ItemProperty -Path $regPath2 -Name "SCRNSAVE.EXE" -Value "C:\Windows\System32\scrnsave.scr"
+
+# Confirm settings
+Write-Host "`nCurrent User Settings:"
+Get-ItemProperty -Path $regPath1 | Select-Object ScreenSaveTimeOut, ScreenSaverIsSecure, ScreenSaveActive
+
+Write-Host "`nPolicy Settings:"
+Get-ItemProperty -Path $regPath2 | Select-Object ScreenSaveTimeOut, ScreenSaverIsSecure, ScreenSaveActive, SCRNSAVE.EXE
