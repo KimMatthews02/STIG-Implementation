@@ -1,0 +1,41 @@
+#
+.SYNOPSIS
+    This PowerShell script configures event log size 1024000 KB or greater.
+
+.NOTES
+    Author          : Kim Matthews
+    LinkedIn        : linkedin.com/in/kim-matthews-84bba4b9
+    GitHub          : github.com/KimMatthews02
+    Date Created    : 2024-04-05
+    Last Modified   : 2025-04-05
+    Version         : 1.0
+    CVEs            : N/A
+    Plugin IDs      : N/A
+    STIG-ID         : WN10-AU-000505
+
+.TESTED ON
+    Date(s) Tested  : 
+    Tested By       : 
+    Systems Tested  : 
+    PowerShell Ver. : 
+
+.USAGE
+    Put any usage instructions here.
+    Example syntax:
+    PS C:\> .\WN10-AU-000505.ps1 
+#>
+
+# Define the registry path
+$regPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Security"
+
+# Ensure the registry path exists
+if (-not (Test-Path $regPath)) {
+    New-Item -Path $regPath -Force | Out-Null
+}
+
+# Set the MaxSize value to 1024000 (0xFA000)
+Set-ItemProperty -Path $regPath -Name "MaxSize" -Value 1024000 -Type DWord
+
+# Verify the setting
+Get-ItemProperty -Path $regPath | Select-Object MaxSize
+
