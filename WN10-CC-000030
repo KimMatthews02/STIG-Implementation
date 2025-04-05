@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    This PowerShell script ensures
+    This PowerShell script prevents Internet Control Message Protocol (ICMP) redirects from overriding Open Shortest Path First (OSPF) generated routes.
 
 .NOTES
     Author          : Kim Matthews
