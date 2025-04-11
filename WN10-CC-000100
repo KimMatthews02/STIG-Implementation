@@ -1,0 +1,43 @@
+#
+.SYNOPSIS
+    This PowerShell script prevent downloads of print driver packages over HTTP                   .
+
+.NOTES
+    Author          : Kim Matthews
+    LinkedIn        : linkedin.com/in/kim-matthews-84bba4b9/
+    GitHub          : github.com/KimMatthews02
+    Date Created    : 2025-04-11
+    Last Modified   : 2025-04-11
+    Version         : 1.0
+    CVEs            : N/A
+    Plugin IDs      : N/A
+    STIG-ID         : WN10-CC-000100
+
+.TESTED ON
+    Date(s) Tested  : 
+    Tested By       : 
+    Systems Tested  : 
+    PowerShell Ver. : 
+
+.USAGE
+    Put any usage instructions here.
+    Example syntax:
+    PS C:\> .\__WN10-CC-000100.ps1 # Path to the registry key
+$printerRegPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\Printers"
+
+# Ensure the key exists
+if (-not (Test-Path $printerRegPath)) {
+    New-Item -Path $printerRegPath -Force | Out-Null
+}
+
+# Set DisableWebPnPDownload to 1
+Set-ItemProperty -Path $printerRegPath -Name "DisableWebPnPDownload" -Value 1 -Type DWord
+
+# Remove "New Key #1" if it exists (cleanup)
+$newKeyPath = Join-Path $printerRegPath "New Key #1"
+if (Test-Path $newKeyPath) {
+    Remove-Item -Path $newKeyPath -Recurse -Force
+}
+
+# Confirm the setting
+Get-ItemProperty -Path $printerRegPath | Select-Object DisableWebPnPDownload
