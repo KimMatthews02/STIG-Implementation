@@ -1,0 +1,40 @@
+
+    This PowerShell script ensures Explorer Data Execution Prevention must be enabled.
+
+.NOTES
+    Author          : Kim Matthews
+    LinkedIn        : linkedin.com/in/kim-matthews-84bba4b9
+    GitHub          : github.com/KimMatthews02
+    Date Created    : 2025-04-12
+    Last Modified   : 2025-04-12
+    Version         : 1.0
+    CVEs            : N/A
+    Plugin IDs      : N/A
+    STIG-ID         : WN10-CC-000215
+
+.TESTED ON
+    Date(s) Tested  : 
+    Tested By       : 
+    Systems Tested  : 
+    PowerShell Ver. : 
+
+.USAGE
+    Put any usage instructions here.
+    Example syntax:
+    PS C:\> .\__STIG-ID-WN10-CC-000215.ps1 
+#>
+
+
+# Define registry path
+$regPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer"
+
+# Ensure the registry path exists
+if (-not (Test-Path $regPath)) {
+    New-Item -Path $regPath -Force | Out-Null
+}
+
+# Set NoDataExecutionPrevention to 0
+Set-ItemProperty -Path $regPath -Name "NoDataExecutionPrevention" -Value 0 -Type DWord
+
+# Confirm the setting
+Get-ItemProperty -Path $regPath | Select-Object NoDataExecutionPrevention
